@@ -24,7 +24,6 @@ static NSString *output;
 -(void)stopRecording:(CDVInvokedUrlCommand *)command
 {
     [self.speech stopRecording:YES];
-    CDVPluginResult* pluginResult = nil;
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
