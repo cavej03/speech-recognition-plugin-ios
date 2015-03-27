@@ -7,21 +7,18 @@
 //
 
 #import "SpeechRecognition.h"
+#import <Cordova/CDV.h>
 
 static NSString *output;
 @implementation SpeechRecognition
-@synthesize callbackId;
 
 -(void)startRecording:(CDVInvokedUrlCommand *)command
 {
-    self.callbackId = command.callbackId;
     self.speech = [[SpeechToTextModule alloc] initWithNoGUIAndLocale:kLANG_ENGLISH];
     [self.speech setDelegate:self];
     [self.speech beginRecording];
-    CDVPluginResult* pluginResult = nil;
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK]; //messageAsString:recognizedText];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
-    
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     
 }
 
@@ -29,7 +26,8 @@ static NSString *output;
 {
     self.callbackId=command.callbackId;
     [self.speech stopRecording:YES];
-    
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 -(void)didRecognizeResponse:(NSString *)recognizedText
@@ -46,7 +44,6 @@ static NSString *output;
 }
 
 -(void)showOutput:(CDVInvokedUrlCommand *)command {
-    self.callbackId = command.callbackId;
     CDVPluginResult* pluginResult = nil;
     NSString* jString;
     NSLog(@"Output = %@",output);
