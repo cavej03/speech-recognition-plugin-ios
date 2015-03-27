@@ -7,30 +7,34 @@
 //
 
 #import "SpeechRecognition.h"
-#import <Cordova/CDV.h>
 
 static NSString *output;
 @implementation SpeechRecognition
+@synthesize callbackId;
 
 -(void)startRecording:(CDVInvokedUrlCommand *)command
 {
+    self.callbackId = command.callbackId;
     self.speech = [[SpeechToTextModule alloc] initWithNoGUIAndLocale:kLANG_ENGLISH];
-    // [self.speech setDelegate:self];
+    [self.speech setDelegate:self];
     [self.speech beginRecording];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    CDVPluginResult* pluginResult = nil;
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK]; //messageAsString:recognizedText];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+    
+    
 }
 
 -(void)stopRecording:(CDVInvokedUrlCommand *)command
 {
+    self.callbackId=command.callbackId;
     [self.speech stopRecording:YES];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    
 }
 
 -(void)didRecognizeResponse:(NSString *)recognizedText
 {
-
+    
     output = recognizedText;
     NSLog(@"Recognized Text = %@ and Output = %@",recognizedText,output);
     
@@ -42,8 +46,9 @@ static NSString *output;
 }
 
 -(void)showOutput:(CDVInvokedUrlCommand *)command {
+    self.callbackId = command.callbackId;
     CDVPluginResult* pluginResult = nil;
-    // NSString* jString;
+    NSString* jString;
     NSLog(@"Output = %@",output);
     if (output != NULL) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:output];
@@ -53,7 +58,7 @@ static NSString *output;
         //jString = [pluginResult toErrorCallbackString:callbackId];
     }
     output = NULL;
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
     //[self writeJavascript:jString];
 }
 

@@ -11,7 +11,12 @@
 
 
 @interface SpeechRecognition : CDVPlugin
+{
+    NSString *callbackId;
+}
+
 @property (nonatomic, strong) SpeechToTextModule *speech;
+@property (nonatomic, copy) NSString* callbackId;
 
 -(void)startRecording:(CDVInvokedUrlCommand*)command;
 -(void)stopRecording:(CDVInvokedUrlCommand*)command;
