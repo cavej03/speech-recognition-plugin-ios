@@ -11,6 +11,10 @@
 
 
 @interface SpeechRecognition : CDVPlugin
+{
+    NSString *callbackId;
+}
+
 @property (nonatomic, strong) SpeechToTextModule *speech;
 @property (nonatomic, copy) NSString* callbackId;
 
