@@ -7,6 +7,7 @@
 //
 
 #import "SpeechRecognition.h"
+#import <Cordova/CDV.h>
 
 static NSString *output;
 @implementation SpeechRecognition
@@ -43,7 +44,7 @@ static NSString *output;
 
 -(void)showOutput:(CDVInvokedUrlCommand *)command {
     CDVPluginResult* pluginResult = nil;
-    NSString* jString;
+    // NSString* jString;
     NSLog(@"Output = %@",output);
     if (output != NULL) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:output];
