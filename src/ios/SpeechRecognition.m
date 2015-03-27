@@ -15,7 +15,6 @@ static NSString *output;
 -(void)startRecording:(CDVInvokedUrlCommand *)command
 {
     self.speech = [[SpeechToTextModule alloc] initWithNoGUIAndLocale:kLANG_ENGLISH];
-    [self.speech setDelegate:self];
     [self.speech beginRecording];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -55,7 +54,7 @@ static NSString *output;
         //jString = [pluginResult toErrorCallbackString:callbackId];
     }
     output = NULL;
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     //[self writeJavascript:jString];
 }
 
