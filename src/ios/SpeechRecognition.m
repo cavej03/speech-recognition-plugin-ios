@@ -23,7 +23,6 @@ static NSString *output;
 
 -(void)stopRecording:(CDVInvokedUrlCommand *)command
 {
-    self.callbackId=command.callbackId;
     [self.speech stopRecording:YES];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -44,7 +43,6 @@ static NSString *output;
 
 -(void)showOutput:(CDVInvokedUrlCommand *)command {
     CDVPluginResult* pluginResult = nil;
-    NSString* jString;
     NSLog(@"Output = %@",output);
     if (output != NULL) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:output];
