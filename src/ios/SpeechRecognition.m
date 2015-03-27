@@ -10,26 +10,24 @@
 
 static NSString *output;
 @implementation SpeechRecognition
-@synthesize callbackId;
 
 -(void)startRecording:(CDVInvokedUrlCommand *)command
 {
-    self.callbackId = callbackId;
     self.speech = [[SpeechToTextModule alloc] initWithNoGUIAndLocale:kLANG_ENGLISH];
     [self.speech setDelegate:self];
     [self.speech beginRecording];
     CDVPluginResult* pluginResult = nil;
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK]; //messageAsString:recognizedText];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     
     
 }
 
 -(void)stopRecording:(CDVInvokedUrlCommand *)command
 {
-    self.callbackId=command.callbackId;
     [self.speech stopRecording:YES];
-    
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK]; //messageAsString:recognizedText];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 -(void)didRecognizeResponse:(NSString *)recognizedText
